@@ -1,0 +1,5 @@
+mkdir quiz-1 quiz-1/myfiles
+cd quiz-1/myfiles
+mkdir folder10384 folder10385 folder10386 folder10387 folder10388 folder10389 folder10390 folder10391 folder10392
+cd ../
+for val in {10384..10392}; do shuf -e -n20 -r "banana" "chair" "tomato" -o myfiles/folder$val/file$val.txt; realpath myfiles/folder$val/file$val.txt >> report.txt; cat myfiles/folder$val/file$val.txt | sort | uniq -c |xargs -n2 >> report.txt; echo " ">>report.txt; done

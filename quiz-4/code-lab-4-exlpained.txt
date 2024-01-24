@@ -1,0 +1,32 @@
+./immun2ctrlC 5 runs the process with sleep time 5 seconds and in the meantime pressing Ctrl+C 
+gets captured/handled and then ignored by this signal(SIGINT, SIG_IGN);
+Not much to show in terms of actual output since it's just a printout of sleeping for: 5 sec.
+
+./pipe_1 4 creates 4 children using fork, and the with the use of pipes the father gets the message
+"Hello from child {number of child} ({PID of the child})" from the child, which is printed. Child is
+as a seperate function.
+
+./pipe_2 creates one child and with use of pipes the father writes to the child "message through pipe" 
+then the child writes the message it was sent from the parent to the terminal
+
+./example_kill 10 calls the sendsig functions that call the kill for SIGUSR1 10 times. The ctcher function
+increases a counter. At the end the program returns "Back in main. The kill() function was called {} times.
+The signal catching function was called {} times", with the corresponding times the above were called.
+
+./example_pause 5 prints the time before pausing. After 5 seconds the alarm is called, wich sends signal 14 
+to the signal handeler. Then it continues and prints the time after the pause. The output is 
+The time before pause is {Time before pause}
+Signal catcher called for signal 14
+The time after pause is {Time after pause}
+
+./example_sleep creates an infinite loop printing "Going to sleep for a second..." every second. When a SIGINT 
+is caught(usually Ctrl+C) the signal handeler is called, "Caught signal {number of signal}, coming out..." is 
+printed and the program is terminated gracefully.
+
+./signal -3 {any command ex. find -name "*.jpg"} creates a child, which runs the given command as normal. The parent 
+waits for the child to finish and if it doesnt finish within 3 seconds(if blank the default is 10 sec) the parent kills
+the child. The onalarm function is responsible for sending the kill signal to the child.
+
+Makefile: with the command "make all" all the above .c files are compiled and binary files with the corresponding names 
+are created. With "make {file_name}" i can compile every file by itself."make clean" removes all the executables from 
+the directory.
